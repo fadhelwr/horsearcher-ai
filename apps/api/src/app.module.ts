@@ -11,6 +11,7 @@ import { TrainingSessionsModule } from './training-sessions/training-sessions.mo
 import { DashboardModule } from './dashboard/dashboard.module.js';
 
 
+
 @Module({
   imports: [
     ConfigModule.forRoot({

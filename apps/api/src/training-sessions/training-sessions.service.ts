@@ -29,7 +29,8 @@ export class TrainingSessionsService {
     return 0;
   }
 
-  async create(dto: CreateTrainingSessionDto) {
+  async create(userId: string,
+  dto: CreateTrainingSessionDto,) {
     const trainingPlan = await this.trainingPlanRepository.findOne({
       where: {
         id: dto.trainingPlanId,
@@ -41,7 +42,7 @@ export class TrainingSessionsService {
     }
 
     const session = this.trainingSessionRepository.create({
-      userId: '91fa8a49-aecf-4f51-800d-dd7d1a65f5a5', // sementara hardcode
+      userId,
       trainingPlanId: dto.trainingPlanId,
       durationMinutes: dto.durationMinutes,
       rating: dto.rating,
@@ -73,4 +74,19 @@ export class TrainingSessionsService {
       level: user.level,
     };
   }
+
+  async findAll(userId: string) {
+    const sessions =
+        await this.trainingSessionRepository.find({
+        where: { userId },
+        });
+
+    return sessions.map((session) => ({
+        sessionId: session.id,
+        durationMinutes: session.durationMinutes,
+        rating: session.rating,
+        notes: session.notes,
+        xpGained: session.xpGained,
+    }));
+    }
 }
