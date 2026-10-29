@@ -8,6 +8,8 @@ import { AppController } from './app.controller.js';
 import { SkillsModule } from './skills/skills.module.js';
 import { TrainingModule } from './training/training.module.js';
 import { TrainingSessionsModule } from './training-sessions/training-sessions.module.js';
+import { DashboardModule } from './dashboard/dashboard.module.js';
+
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { TrainingSessionsModule } from './training-sessions/training-sessions.mo
     TrainingModule,
 
     TrainingSessionsModule,
+
+    DashboardModule,
   ],
 
   controllers: [AppController],
