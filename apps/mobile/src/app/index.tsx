@@ -1,4 +1,33 @@
-import * as Device from 'expo-device';
+import { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
+
+import { api } from '../../services/api';
+
+export default function HomeScreen() {
+  const [message, setMessage] = useState('Loading...');
+
+  useEffect(() => {
+    api
+      .get('/skills')
+      .then((response) => {
+        console.log('SUCCESS:', response.data);
+        setMessage(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log('ERROR:', error);
+        setMessage(error.message);
+      });
+  }, []);
+
+  return (
+    <View style={{ flex: 1, padding: 20 }}>
+      <Text>{message}</Text>
+    </View>
+  );
+}
+
+
+/**import * as Device from 'expo-device';
 import { Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -35,7 +64,7 @@ export default function HomeScreen() {
         <ThemedView style={styles.heroSection}>
           <AnimatedIcon />
           <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
+            Hi Fadhel! 
           </ThemedText>
         </ThemedView>
 
@@ -95,4 +124,4 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.four,
     borderRadius: Spacing.four,
   },
-});
+}); **/
