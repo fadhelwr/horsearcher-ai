@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+/**import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
 import { api } from '../../services/api';
@@ -24,10 +24,10 @@ export default function HomeScreen() {
       <Text>{message}</Text>
     </View>
   );
-}
+}**/
 
 
-/**import * as Device from 'expo-device';
+import * as Device from 'expo-device';
 import { Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -37,6 +37,12 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { WebBadge } from '@/components/web-badge';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
+
+import { api } from '../../services/api';
+
+
 
 function getDevMenuHint() {
   if (Platform.OS === 'web') {
@@ -124,4 +130,4 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.four,
     borderRadius: Spacing.four,
   },
-}); **/
+}); 

@@ -10,6 +10,10 @@ import { Collapsible } from '@/components/ui/collapsible';
 import { WebBadge } from '@/components/web-badge';
 import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
+
+import { api } from '../../services/api';
 
 export default function TabTwoScreen() {
   const safeAreaInsets = useSafeAreaInsets();
@@ -31,6 +35,16 @@ export default function TabTwoScreen() {
       paddingBottom: Spacing.four,
     },
   });
+
+  const [skills, setSkills] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('http://10.233.73.147:3000/skills')
+      .then((res) => res.json())
+      .then((data) => {
+        setSkills(data);
+      });
+  }, []);
 
   return (
     <ScrollView
@@ -59,6 +73,24 @@ export default function TabTwoScreen() {
         </ThemedView>
 
         <ThemedView style={styles.sectionsWrapper}>
+          <Collapsible title="Horse Training Skills">
+            {skills.map((skill) => (
+              <ThemedView
+                key={skill.id}
+                style={{
+                  padding: 12,
+                  marginBottom: 8,
+                  borderRadius: 12,
+                  backgroundColor: '#eee',
+                }}
+              >
+                <ThemedText>
+                  {skill.name}
+                </ThemedText>
+              </ThemedView>
+            ))}
+          </Collapsible>
+
           <Collapsible title="File-based routing">
             <ThemedText type="small">
               This app has two screens: <ThemedText type="code">src/app/index.tsx</ThemedText> and{' '}
