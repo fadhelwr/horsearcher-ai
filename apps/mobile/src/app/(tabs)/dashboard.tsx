@@ -221,6 +221,7 @@ export default function DashboardScreen() {
                 marginTop: 4,
               }}
             >
+              
               {lastTraining?.trainingPlanTitle ??
                 'No training yet'}
             </ThemedText>

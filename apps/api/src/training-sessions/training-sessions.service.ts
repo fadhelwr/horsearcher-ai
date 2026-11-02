@@ -31,11 +31,20 @@ export class TrainingSessionsService {
 
   async create(userId: string,
   dto: CreateTrainingSessionDto,) {
+
+    console.log('DTO:', dto);
+
     const trainingPlan = await this.trainingPlanRepository.findOne({
       where: {
         id: dto.trainingPlanId,
       },
     });
+
+    console.log(
+      'FOUND PLAN:',
+      trainingPlan?.id,
+      trainingPlan?.title,
+    );
 
     if (!trainingPlan) {
       throw new Error('Training plan not found');
@@ -83,7 +92,7 @@ export class TrainingSessionsService {
         trainingPlan: true,
       },
       order: {
-        id: 'DESC',
+        createdAt: 'DESC',
       },
     });
 

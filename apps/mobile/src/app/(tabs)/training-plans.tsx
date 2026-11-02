@@ -29,6 +29,11 @@ export default function TrainingPlansScreen() {
         '/training-plans'
       );
 
+      console.log(
+  'TRAINING PLANS:',
+  response.data
+);
+
       setPlans(response.data);
     } catch (error: any) {
         console.log('LOAD PLANS ERROR');
@@ -50,6 +55,12 @@ export default function TrainingPlansScreen() {
   const completeTraining = async (
     trainingPlanId: string,
   ) => {
+
+    console.log(
+      'SELECTED TRAINING PLAN:',
+      trainingPlanId
+    );
+
     try {
       const response = await api.post(
         '/training-sessions',
