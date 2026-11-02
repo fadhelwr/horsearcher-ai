@@ -13,7 +13,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
-import { api } from '../../services/api';
+import { api } from '../../../services/api';
 
 export default function TabTwoScreen() {
   const safeAreaInsets = useSafeAreaInsets();

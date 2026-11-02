@@ -17,9 +17,12 @@ export class DashboardController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  getDashboard(@Req() req: any) {
-    return this.dashboardService.getDashboard(
-      req.user.userId,
-    );
-  }
+  @Get()
+getDashboard(@Req() req: any) {
+  console.log('REQ USER:', req.user);
+
+  return this.dashboardService.getDashboard(
+    req.user.userId,
+  );
+}
 }

@@ -76,17 +76,31 @@ export class TrainingSessionsService {
   }
 
   async findAll(userId: string) {
-    const sessions =
-        await this.trainingSessionRepository.find({
-        where: { userId },
-        });
+  const sessions =
+    await this.trainingSessionRepository.find({
+      where: { userId },
+      relations: {
+        trainingPlan: true,
+      },
+      order: {
+        id: 'DESC',
+      },
+    });
 
-    return sessions.map((session) => ({
-        sessionId: session.id,
-        durationMinutes: session.durationMinutes,
-        rating: session.rating,
-        notes: session.notes,
-        xpGained: session.xpGained,
-    }));
-    }
+  return sessions.map((session) => ({
+    sessionId: session.id,
+    durationMinutes: session.durationMinutes,
+    rating: session.rating,
+    notes: session.notes,
+    xpGained: session.xpGained,
+
+    trainingPlanTitle:
+      session.trainingPlan?.title,
+
+    trainingPlanId:
+      session.trainingPlan?.id,
+
+      createdAt: session.createdAt,
+  }));
+}
 }
