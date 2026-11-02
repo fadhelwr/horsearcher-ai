@@ -14,72 +14,50 @@ export default function AppTabs() {
   return (
     <NativeTabs
       backgroundColor={colors.background}
-      indicatorColor={
-        colors.backgroundElement
-      }
+      indicatorColor={colors.backgroundElement}
       labelStyle={{
         selected: {
           color: colors.text,
         },
       }}
     >
-      <NativeTabs.Trigger
-        name="dashboard"
-      >
+      <NativeTabs.Trigger name="dashboard">
         <NativeTabs.Trigger.Label>
           Dashboard
         </NativeTabs.Trigger.Label>
 
         <NativeTabs.Trigger.Icon
-          src={require(
-            '@/assets/images/tabIcons/explore.png'
-          )}
-          renderingMode="template"
+          sf="house.fill"
         />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger
-        name="training-plans"
-      >
+      <NativeTabs.Trigger name="training-plans">
         <NativeTabs.Trigger.Label>
-          Training Plans
+          Training
         </NativeTabs.Trigger.Label>
 
         <NativeTabs.Trigger.Icon
-          src={require(
-            '@/assets/images/tabIcons/explore.png'
-          )}
-          renderingMode="template"
+          sf="target"
         />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger
-        name="history"
-      >
+      <NativeTabs.Trigger name="history">
         <NativeTabs.Trigger.Label>
           History
         </NativeTabs.Trigger.Label>
 
         <NativeTabs.Trigger.Icon
-          src={require(
-            '@/assets/images/tabIcons/explore.png'
-          )}
-          renderingMode="template"
+          sf="clock.arrow.circlepath"
         />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger
-        name="profile"
-      >
+      <NativeTabs.Trigger name="profile">
         <NativeTabs.Trigger.Label>
           Profile
         </NativeTabs.Trigger.Label>
 
         <NativeTabs.Trigger.Icon
-          src={require(
-            '@/assets/images/tabIcons/explore.png'
-          )}
-          renderingMode="template"
+          sf="person.fill"
         />
       </NativeTabs.Trigger>
     </NativeTabs>
