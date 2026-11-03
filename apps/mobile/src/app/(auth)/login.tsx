@@ -3,22 +3,24 @@ import {
   ActivityIndicator,
   Alert,
   Pressable,
+  Text,
   TextInput,
   View,
 } from 'react-native';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 
 import { api } from '../../../services/api';
 import { saveToken } from '../../../services/auth';
 
-import { ThemedText } from '../../components/themed-text';
-import { ThemedView } from '../../components/themed-view';
-
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [password, setPassword] =
+    useState('');
+
+  const [loading, setLoading] =
+    useState(false);
 
   const handleLogin = async () => {
     try {
@@ -36,10 +38,10 @@ export default function LoginScreen() {
         response.data.accessToken
       );
 
-      router.replace('/dashboard' as any);
+      router.replace(
+        '/dashboard' as any
+      );
     } catch (error: any) {
-      console.log(error);
-
       Alert.alert(
         'Login Failed',
         error?.response?.data?.message ??
@@ -51,93 +53,184 @@ export default function LoginScreen() {
   };
 
   return (
-    <ThemedView
+    <SafeAreaView
       style={{
         flex: 1,
-        justifyContent: 'center',
-        padding: 24,
+        backgroundColor: '#F8F8F8',
       }}
     >
       <View
         style={{
-          marginBottom: 40,
-        }}
-      >
-        <ThemedText
-          type="title"
-          style={{
-            marginBottom: 8,
-          }}
-        >
-          🐎 HorseArcher
-        </ThemedText>
-
-        <ThemedText>
-          Master the path of horseback archery.
-        </ThemedText>
-      </View>
-
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        style={{
-          height: 56,
-          borderWidth: 1,
-          borderColor: '#D1D5DB',
-          borderRadius: 16,
-          paddingHorizontal: 16,
-          marginBottom: 16,
-          backgroundColor: '#FFFFFF',
-        }}
-      />
-
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={{
-          height: 56,
-          borderWidth: 1,
-          borderColor: '#D1D5DB',
-          borderRadius: 16,
-          paddingHorizontal: 16,
-          marginBottom: 24,
-          backgroundColor: '#FFFFFF',
-        }}
-      />
-
-      <Pressable
-        onPress={handleLogin}
-        style={{
-          height: 56,
-          borderRadius: 16,
-          backgroundColor: '#2563EB',
-          alignItems: 'center',
+          flex: 1,
+          backgroundColor: '#F8F8F8',
+          paddingHorizontal: 28,
           justifyContent: 'center',
         }}
       >
-        <ThemedText
+        {/* HERO */}
+
+        <View
           style={{
-            color: 'white',
-            fontWeight: '700',
+            alignItems: 'center',
+            marginBottom: 44,
           }}
         >
-          Login
-        </ThemedText>
-      </Pressable>
+          <Text
+            style={{
+              fontSize: 42,
+              marginBottom: 12,
+            }}
+          >
+            🏹
+          </Text>
 
-      <ThemedText
-        style={{
-          textAlign: 'center',
-          marginTop: 24,
-          opacity: 0.7,
-        }}
-      >
-        New to HorseArcher? Create an account
-      </ThemedText>
+          <Text
+            style={{
+              fontSize: 38,
+              fontWeight: '700',
+              color: '#111111',
+              marginBottom: 12,
+              textAlign: 'center',
+            }}
+          >
+            HorseArcher
+          </Text>
+
+          <Text
+            style={{
+              textAlign: 'center',
+              color: '#777777',
+              fontSize: 18,
+              lineHeight: 28,
+            }}
+          >
+            Master the art of{'\n'}
+            horseback archery.
+          </Text>
+        </View>
+
+        {/* LOGIN CARD */}
+
+        <View
+          style={{
+            backgroundColor: '#FFFFFF',
+            borderRadius: 32,
+            padding: 24,
+
+            shadowColor: '#000',
+            shadowOpacity: 0.05,
+            shadowRadius: 20,
+            shadowOffset: {
+              width: 0,
+              height: 8,
+            },
+
+            elevation: 2,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 15,
+              color: '#666',
+              marginBottom: 8,
+            }}
+          >
+            Email
+          </Text>
+
+          <TextInput
+            placeholder="Enter your email"
+            placeholderTextColor="#BBBBBB"
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            style={{
+              height: 58,
+              borderRadius: 18,
+              backgroundColor: '#F4F4F4',
+              paddingHorizontal: 18,
+              marginBottom: 20,
+              fontSize: 16,
+            }}
+          />
+
+          <Text
+            style={{
+              fontSize: 15,
+              color: '#666',
+              marginBottom: 8,
+            }}
+          >
+            Password
+          </Text>
+
+          <TextInput
+            placeholder="Enter your password"
+            placeholderTextColor="#BBBBBB"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            style={{
+              height: 58,
+              borderRadius: 18,
+              backgroundColor: '#F4F4F4',
+              paddingHorizontal: 18,
+              marginBottom: 24,
+              fontSize: 16,
+            }}
+          />
+
+          <Pressable
+            onPress={handleLogin}
+            style={{
+              height: 58,
+              borderRadius: 18,
+              backgroundColor: '#111111',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Text
+              style={{
+                color: '#FFFFFF',
+                fontSize: 18,
+                fontWeight: '700',
+              }}
+            >
+              Sign In
+            </Text>
+          </Pressable>
+        </View>
+
+        {/* FOOTER */}
+
+        <View
+          style={{
+            marginTop: 28,
+            alignItems: 'center',
+          }}
+        >
+          <Text
+            style={{
+              color: '#777777',
+              fontSize: 17,
+            }}
+          >
+            New to HorseArcher?
+          </Text>
+
+          <Text
+            style={{
+              marginTop: 8,
+              fontSize: 18,
+              fontWeight: '700',
+              color: '#111111',
+            }}
+          >
+            Create Account
+          </Text>
+        </View>
+      </View>
 
       {loading && (
         <View
@@ -147,29 +240,29 @@ export default function LoginScreen() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.15)',
+            backgroundColor:
+              'rgba(255,255,255,0.6)',
             justifyContent: 'center',
             alignItems: 'center',
           }}
         >
           <View
             style={{
-              width: 80,
-              height: 80,
-              borderRadius: 20,
-              backgroundColor:
-                'rgba(255,255,255,0.9)',
+              width: 90,
+              height: 90,
+              borderRadius: 24,
+              backgroundColor: '#FFFFFF',
               justifyContent: 'center',
               alignItems: 'center',
             }}
           >
             <ActivityIndicator
               size="large"
-              color="#2563EB"
+              color="#111111"
             />
           </View>
         </View>
       )}
-    </ThemedView>
+    </SafeAreaView>
   );
 }
