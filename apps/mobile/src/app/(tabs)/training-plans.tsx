@@ -6,20 +6,26 @@ import {
   ScrollView,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 import {
   router,
   useFocusEffect,
 } from 'expo-router';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 import { api } from '../../../services/api';
 
+import AppHeader from '../../components/app-header';
 import { ThemedText } from '../../components/themed-text';
 import { ThemedView } from '../../components/themed-view';
 
 export default function TrainingPlansScreen() {
-  const [plans, setPlans] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [plans, setPlans] =
+    useState<any[]>([]);
+
+  const [loading, setLoading] =
+    useState(false);
 
   const loadPlans = async () => {
     try {
@@ -29,38 +35,29 @@ export default function TrainingPlansScreen() {
         '/training-plans'
       );
 
-      console.log(
-  'TRAINING PLANS:',
-  response.data
-);
-
       setPlans(response.data);
     } catch (error: any) {
-        console.log('LOAD PLANS ERROR');
-        console.log(error);
-        console.log(error?.response);
-        console.log(error?.response?.data);
+      console.log(
+        'LOAD PLANS ERROR'
+      );
 
-        Alert.alert(
-          'Error',
-          JSON.stringify(
-            error?.response?.data ?? error.message
-          )
-        );
-      } finally {
-        setLoading(false);
-      }
+      console.log(error);
+
+      Alert.alert(
+        'Error',
+        JSON.stringify(
+          error?.response?.data ??
+            error.message
+        )
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const completeTraining = async (
     trainingPlanId: string,
   ) => {
-
-    console.log(
-      'SELECTED TRAINING PLAN:',
-      trainingPlanId
-    );
-
     try {
       const response = await api.post(
         '/training-sessions',
@@ -68,7 +65,8 @@ export default function TrainingPlansScreen() {
           trainingPlanId,
           durationMinutes: 30,
           rating: 8,
-          notes: 'Completed from mobile app',
+          notes:
+            'Completed from mobile app',
         }
       );
 
@@ -77,13 +75,16 @@ export default function TrainingPlansScreen() {
         `+${response.data.xpGained} XP`
       );
 
-      router.replace('/dashboard');
+      router.replace(
+        '/dashboard'
+      );
     } catch (error: any) {
       console.log(error);
 
       Alert.alert(
         'Error',
-        error?.response?.data?.message ??
+        error?.response?.data
+          ?.message ??
           'Failed to complete training'
       );
     }
@@ -99,42 +100,33 @@ export default function TrainingPlansScreen() {
     <SafeAreaView
       style={{
         flex: 1,
+        backgroundColor: '#F8F8F8',
       }}
     >
       <ThemedView
         style={{
           flex: 1,
+          backgroundColor: '#F8F8F8',
+          paddingHorizontal: 24,
+          paddingTop: 12,
         }}
       >
+        <AppHeader
+          title="Training Plans"
+        />
+
         <ScrollView
+          showsVerticalScrollIndicator={
+            false
+          }
           contentContainerStyle={{
-            padding: 24,
             paddingBottom: 100,
           }}
-          showsVerticalScrollIndicator={false}
         >
-          <ThemedText
-            style={{
-              fontSize: 14,
-              opacity: 0.6,
-            }}
-          >
-            Training
-          </ThemedText>
-
-          <ThemedText
-            type="title"
-            style={{
-              marginBottom: 24,
-            }}
-          >
-            Training Plans
-          </ThemedText>
-
           {loading ? (
             <ActivityIndicator
               size="large"
-              color="#2563EB"
+              color="#111111"
             />
           ) : plans.length === 0 ? (
             <ThemedText>
@@ -142,63 +134,91 @@ export default function TrainingPlansScreen() {
             </ThemedText>
           ) : (
             plans.map((plan) => (
-              <Pressable
+              <View
                 key={plan.id}
-                onPress={() =>
-                  completeTraining(plan.id)
-                }
-                style={({ pressed }) => ({
-                  opacity: pressed ? 0.85 : 1,
-                })}
+                style={{
+                  backgroundColor:
+                    '#FFFFFF',
+                  borderRadius: 24,
+                  padding: 20,
+                  marginBottom: 16,
+                }}
               >
-                <View
+                <ThemedText
                   style={{
-                    backgroundColor: '#FFFFFF',
-                    borderRadius: 20,
-                    padding: 18,
-                    marginBottom: 12,
-                    borderWidth: 1,
-                    borderColor: '#E5E7EB',
+                    fontSize: 20,
+                    fontWeight: '700',
+                    marginBottom: 8,
                   }}
                 >
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent:
-                        'space-between',
-                      alignItems: 'center',
-                      marginBottom: 12,
-                    }}
-                  >
-                    <ThemedText
-                      style={{
-                        fontSize: 18,
-                        fontWeight: '700',
-                        flex: 1,
-                      }}
-                    >
-                      {plan.title ?? plan.name}
-                    </ThemedText>
+                  {plan.title ??
+                    plan.name}
+                </ThemedText>
 
-                    <ThemedText
-                      style={{
-                        color: '#22C55E',
-                        fontWeight: '700',
-                      }}
-                    >
-                      +{plan.xpReward} XP
-                    </ThemedText>
-                  </View>
+                <ThemedText
+                  style={{
+                    opacity: 0.6,
+                    marginBottom: 20,
+                  }}
+                >
+                  Complete this
+                  training session to
+                  earn XP and improve
+                  your horseback
+                  archery skills.
+                </ThemedText>
 
+                <View
+                  style={{
+                    flexDirection:
+                      'row',
+                    alignItems:
+                      'center',
+                    justifyContent:
+                      'space-between',
+                  }}
+                >
                   <ThemedText
                     style={{
-                      opacity: 0.6,
+                      fontWeight:
+                        '700',
+                      color:
+                        '#22C55E',
+                      fontSize: 16,
                     }}
                   >
-                    Tap to complete training
+                    +
+                    {plan.xpReward}{' '}
+                    XP
                   </ThemedText>
+
+                  <Pressable
+                    onPress={() =>
+                      completeTraining(
+                        plan.id
+                      )
+                    }
+                    style={{
+                      backgroundColor:
+                        '#111111',
+                      borderRadius: 14,
+                      paddingHorizontal: 18,
+                      paddingVertical: 10,
+                    }}
+                  >
+                    <ThemedText
+                      style={{
+                        color:
+                          '#FFFFFF',
+                        fontWeight:
+                          '700',
+                      }}
+                    >
+                      Start
+                    </ThemedText>
+                  </Pressable>
                 </View>
-              </Pressable>
+              </View>
             ))
           )}
         </ScrollView>

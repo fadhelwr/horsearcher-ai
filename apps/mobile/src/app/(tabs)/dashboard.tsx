@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
-  Pressable,
+  ScrollView,
   View,
 } from 'react-native';
 
@@ -70,41 +70,9 @@ export default function DashboardScreen() {
     }, [])
   );
 
-  if (loading) {
-    return (
-      <ThemedView
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <ActivityIndicator
-          size="large"
-          color="#111111"
-        />
-      </ThemedView>
-    );
-  }
-
-  if (!dashboard) {
-    return (
-      <ThemedView
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <ThemedText>
-          Failed to load dashboard
-        </ThemedText>
-      </ThemedView>
-    );
-  }
-
-  const progress =
-    ((dashboard.xp ?? 0) % 500) / 500;
+  const progress = dashboard
+    ? ((dashboard.xp ?? 0) % 500) / 500
+    : 0;
 
   return (
     <SafeAreaView
@@ -125,210 +93,219 @@ export default function DashboardScreen() {
           title="Dashboard"
         />
 
-        {/* HERO CARD */}
-
-        <View
-          style={{
-            backgroundColor: '#111111',
-            borderRadius: 30,
-            padding: 24,
-            marginBottom: 24,
+        <ScrollView
+          showsVerticalScrollIndicator={
+            false
+          }
+          contentContainerStyle={{
+            paddingBottom: 100,
           }}
         >
-          <ThemedText
-            style={{
-              color: '#AAAAAA',
-            }}
-          >
-            Your latest training session
-          </ThemedText>
-
-          <ThemedText
-            style={{
-              color: '#FFFFFF',
-              fontSize: 24,
-              fontWeight: '700',
-              marginTop: 10,
-            }}
-          >
-            {lastTraining
-              ?.trainingPlanTitle ??
-              'Ready to Train'}
-          </ThemedText>
-
-          <ThemedText
-            style={{
-              color: '#FFFFFF',
-              opacity: 0.8,
-              marginTop: 6,
-            }}
-          >
-            Continue your journey
-          </ThemedText>
-
-          <View
-            style={{
-              marginTop: 20,
-              marginBottom: 20,
-            }}
-          >
-            <ThemedText
-              style={{
-                color: '#AAAAAA',
-                marginBottom: 8,
-              }}
-            >
-              Progress
-            </ThemedText>
-
+          {loading && !dashboard ? (
             <View
               style={{
-                height: 8,
-                backgroundColor:
-                  'rgba(255,255,255,0.2)',
-                borderRadius: 999,
-                overflow: 'hidden',
+                paddingTop: 80,
+                alignItems: 'center',
               }}
             >
-              <View
-                style={{
-                  width: `${progress * 100}%`,
-                  height: '100%',
-                  backgroundColor:
-                    '#FFFFFF',
-                }}
+              <ActivityIndicator
+                size="large"
+                color="#111111"
               />
             </View>
-
-            <ThemedText
+          ) : !dashboard ? (
+            <View
               style={{
-                color: '#FFFFFF',
-                opacity: 0.8,
-                marginTop: 8,
+                paddingTop: 80,
+                alignItems: 'center',
               }}
             >
-              Level{' '}
-              {dashboard?.level ?? 0} •{' '}
-              {dashboard?.xp ?? 0} XP
-            </ThemedText>
-          </View>
+              <ThemedText>
+                Failed to load dashboard
+              </ThemedText>
+            </View>
+          ) : (
+            <>
+              {/* HERO CARD */}
 
-          <Pressable
-            style={{
-              backgroundColor:
-                '#FFFFFF',
-              borderRadius: 18,
-              paddingVertical: 14,
-            }}
-          >
-            <ThemedText
-              style={{
-                textAlign: 'center',
-                fontWeight: '700',
-              }}
-            >
-              Start Training
-            </ThemedText>
-          </Pressable>
-        </View>
+              <View
+                style={{
+                  backgroundColor:
+                    '#111111',
+                  borderRadius: 30,
+                  padding: 24,
+                  marginBottom: 24,
+                }}
+              >
+                <ThemedText
+                  style={{
+                    color: '#AAAAAA',
+                  }}
+                >
+                  Your latest training
+                  session
+                </ThemedText>
 
-        {/* STATS */}
+                <ThemedText
+                  style={{
+                    color: '#FFFFFF',
+                    fontSize: 24,
+                    fontWeight: '700',
+                    marginTop: 10,
+                  }}
+                >
+                  {lastTraining
+                    ?.trainingPlanTitle ??
+                    'Ready to Train'}
+                </ThemedText>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            gap: 12,
-            marginBottom: 24,
-          }}
-        >
-          <View
-            style={{
-              flex: 1,
-              backgroundColor:
-                '#FFFFFF',
-              borderRadius: 24,
-              padding: 20,
-            }}
-          >
-            <ThemedText
-              style={{
-                opacity: 0.6,
-              }}
-            >
-              Sessions
-            </ThemedText>
+                <View
+                  style={{
+                    marginTop: 5,
+                    marginBottom: 18,
+                  }}
+                >
+                  <ThemedText
+                    style={{
+                      color: '#FFFFFF',
+                      opacity: 0.8,
+                      marginTop: 8,
+                    }}
+                  >
+                    Level{' '}
+                    {dashboard?.level ??
+                      0}{' '}
+                    •{' '}
+                    {dashboard?.xp ?? 0}
+                    XP
+                  </ThemedText>
+                </View>
 
-            <ThemedText
-              style={{
-                fontSize: 26,
-                fontWeight: '700',
-                marginTop: 8,
-              }}
-            >
-              {
-                dashboard?.completedSessions ?? 0
-              }
-            </ThemedText>
-          </View>
+                <View
+                  style={{
+                    height: 8,
+                    backgroundColor:
+                      'rgba(255,255,255,0.2)',
+                    borderRadius: 999,
+                    overflow: 'hidden',
+                  }}
+                >
+                  <View
+                    style={{
+                      width: `${
+                        progress * 100
+                      }%`,
+                      height: '100%',
+                      backgroundColor:
+                        '#FFFFFF',
+                    }}
+                  />
+                </View>
+              </View>
 
-          <View
-            style={{
-              flex: 1,
-              backgroundColor:
-                '#FFFFFF',
-              borderRadius: 24,
-              padding: 20,
-            }}
-          >
-            <ThemedText
-              style={{
-                opacity: 0.6,
-              }}
-            >
-              Level
-            </ThemedText>
+              {/* STATS */}
 
-            <ThemedText
-              style={{
-                fontSize: 26,
-                fontWeight: '700',
-                marginTop: 8,
-              }}
-            >
-              {dashboard?.level ?? 0}
-            </ThemedText>
-          </View>
-        </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  gap: 12,
+                  marginBottom: 24,
+                }}
+              >
+                <View
+                  style={{
+                    flex: 1,
+                    backgroundColor:
+                      '#FFFFFF',
+                    borderRadius: 24,
+                    padding: 20,
+                  }}
+                >
+                  <ThemedText
+                    style={{
+                      opacity: 0.6,
+                    }}
+                  >
+                    Sessions
+                  </ThemedText>
 
-        {/* NEXT TRAINING */}
+                  <ThemedText
+                    style={{
+                      fontSize: 25,
+                      fontWeight:
+                        '700',
+                      marginTop: 8,
+                    }}
+                  >
+                    {
+                      dashboard?.completedSessions ??
+                      0
+                    }
+                  </ThemedText>
+                </View>
 
-        <View
-            style={{
-              
-              backgroundColor:
-                '#FFFFFF',
-              borderRadius: 24,
-              padding: 20,
-            }}
-          >
-            <ThemedText
-              style={{
-                opacity: 0.6,
-              }}
-            >
-              Next Training Plan
-            </ThemedText>
+                <View
+                  style={{
+                    flex: 1,
+                    backgroundColor:
+                      '#FFFFFF',
+                    borderRadius: 24,
+                    padding: 20,
+                  }}
+                >
+                  <ThemedText
+                    style={{
+                      opacity: 0.6,
+                    }}
+                  >
+                    Level
+                  </ThemedText>
 
-            <ThemedText
-              style={{
-                fontSize: 26,
-                fontWeight: '700',
-                marginTop: 8,
-              }}
-            >
-              -
-            </ThemedText>
-          </View>
+                  <ThemedText
+                    style={{
+                      fontSize: 25,
+                      fontWeight:
+                        '700',
+                      marginTop: 8,
+                    }}
+                  >
+                    {dashboard?.level ??
+                      0}
+                  </ThemedText>
+                </View>
+              </View>
+
+              {/* NEXT TRAINING */}
+
+              <View
+                style={{
+                  backgroundColor:
+                    '#FFFFFF',
+                  borderRadius: 24,
+                  padding: 20,
+                }}
+              >
+                <ThemedText
+                  style={{
+                    opacity: 0.6,
+                  }}
+                >
+                  Next Training Plan
+                </ThemedText>
+
+                <ThemedText
+                  style={{
+                    fontSize: 25,
+                    fontWeight: '700',
+                    marginTop: 8,
+                  }}
+                >
+                  -
+                </ThemedText>
+              </View>
+            </>
+          )}
+        </ScrollView>
       </ThemedView>
     </SafeAreaView>
   );

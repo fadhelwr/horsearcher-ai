@@ -17,27 +17,31 @@ export class DashboardService {
   ) {}
 
   async getDashboard(userId: string) {
-    const user = await this.userRepository.findOne({
+  const user =
+    await this.userRepository.findOne({
       where: { id: userId },
     });
 
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    const completedSessions =
-      await this.trainingSessionRepository.count({
-        where: {
-          userId,
-        },
-      });
-
-    return {
-      name: user.name,
-      email: user.email,
-      level: user.level,
-      xp: user.xp,
-      completedSessions,
-    };
+  if (!user) {
+    throw new Error('User not found');
   }
+
+  const completedSessions =
+    await this.trainingSessionRepository.count({
+      where: {
+        userId,
+      },
+    });
+
+  const calculatedLevel =
+    Math.floor(user.xp / 500) + 1;
+
+  return {
+    name: user.name,
+    email: user.email,
+    level: calculatedLevel,
+    xp: user.xp,
+    completedSessions,
+  };
+}
 }

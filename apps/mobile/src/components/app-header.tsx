@@ -1,7 +1,7 @@
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { SymbolView } from 'expo-symbols';
-
 import { ThemedText } from './themed-text';
+import { router } from 'expo-router';
 
 type AppHeaderProps = {
   title: string;
@@ -10,6 +10,14 @@ type AppHeaderProps = {
 export default function AppHeader({
   title,
 }: AppHeaderProps) {
+    const handleProfilePress = () => {
+    router.push('/profile' as any);
+  };
+
+  const handleMenuPress = () => {
+    console.log('Menu');
+  };
+
   return (
     <View
       style={{
@@ -19,11 +27,16 @@ export default function AppHeader({
         marginBottom: 24,
       }}
     >
-      <SymbolView
-        name="person.crop.circle.fill"
-        size={40}
-        tintColor="#111111"
-      />
+      <Pressable
+        onPress={handleProfilePress}
+        hitSlop={12}
+      >
+        <SymbolView
+          name="person.crop.circle"
+          size={40}
+          tintColor="#111111"
+        />
+      </Pressable>
 
       <View
         style={{
@@ -45,11 +58,50 @@ export default function AppHeader({
         </ThemedText>
       </View>
 
-      <SymbolView
-        name="ellipsis.circle.fill"
-        size={40}
-        tintColor="#111111"
-      />
+      <Pressable
+        onPress={handleMenuPress}
+        hitSlop={12}
+      >
+        <View
+          style={{
+            width: 22,
+            height: 18,
+            justifyContent:
+              'space-between',
+            alignItems: 'flex-end',
+          }}
+        >
+          <View
+            style={{
+              width: 24,
+              height: 3,
+              borderRadius: 999,
+              backgroundColor:
+                '#111111',
+            }}
+          />
+
+          <View
+            style={{
+              width: 18,
+              height: 3,
+              borderRadius: 999,
+              backgroundColor:
+                '#111111',
+            }}
+          />
+
+          <View
+            style={{
+              width: 14,
+              height: 3,
+              borderRadius: 999,
+              backgroundColor:
+                '#111111',
+            }}
+          />
+        </View>
+      </Pressable>
     </View>
   );
 }
