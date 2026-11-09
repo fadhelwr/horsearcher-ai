@@ -109,6 +109,15 @@ pnpm dev
 pnpm start
 ```
 
+### Environment Variables
+
+Create a `.env` file based on `.env.example`.
+
+```env
+DATABASE_URL=postgresql://username:password@localhost:5432/horsearcher
+JWT_SECRET=your-secret-key
+```
+
 ## Screenshots
 
 ### Dashboard
